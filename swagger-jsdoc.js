@@ -1,0 +1,23 @@
+const options = {
+  swaggerDefinition: {
+    openapi: "3.0.0",
+    info: {
+      title: "DC Bot web server",
+      version: "1.0.0",
+      description:
+        "Functional API for connecting DC Bot",
+      license: {
+        name: "MIT",
+        url: "https://choosealicense.com/licenses/mit/"
+      },
+    },
+    servers: [
+      {
+        url: "http://localhost:3000/api/v1"
+      }
+    ]
+  },
+  apis: []
+};
+
+module.exports = options;

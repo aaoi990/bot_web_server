@@ -5,7 +5,13 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var twitterRouter = require('./routes/twitter');
+var swaggerRouter = require('./routes/swagger');
+
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
+const router = require('express').Router();
 
 var app = express();
 
@@ -19,8 +25,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+
+const v1path = '/api/v1';
+app.use(v1path, indexRouter);
+app.use(v1path + '/twitter', twitterRouter);
+app.use(v1path + '/swagger/', swaggerRouter);
+
+// Swagger Specifics
+const options = require('./swagger-jsdoc');
+const specs = swaggerJsdoc(options);
+app.use(v1path + '/docs', swaggerUi.serve);
+app.get(v1path + '/docs' ,swaggerUi.setup(specs, {explorer: true }));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
