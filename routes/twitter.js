@@ -21,7 +21,7 @@ var router = express.Router();
  *          content:
  *            application/json:
  *              schema:
- *                $ref: '#/components/schemas/user'
+ *                $ref: '#/components/schemas/User'
  */
 /* GET users listing. */
 router.get('/', function(req, res, next) {
