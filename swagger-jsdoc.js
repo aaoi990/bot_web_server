@@ -10,7 +10,12 @@ const options = {
         name: "MIT",
         url: "https://choosealicense.com/licenses/mit/"
       },
-    },    
+    },
+    servers: [
+      {
+        url: "/api/v1"
+      }
+    ]
   },
   apis: ['./models/user.js', './routes/twitter.js']
 };
