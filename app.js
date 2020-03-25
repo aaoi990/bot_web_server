@@ -6,7 +6,6 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var twitterRouter = require('./routes/twitter');
-var swaggerRouter = require('./routes/swagger');
 
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
@@ -29,7 +28,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 const v1path = '/api/v1';
 app.use(v1path, indexRouter);
 app.use(v1path + '/twitter', twitterRouter);
-app.use(v1path + '/swagger/', swaggerRouter);
 
 // Swagger Specifics
 const options = require('./swagger-jsdoc');

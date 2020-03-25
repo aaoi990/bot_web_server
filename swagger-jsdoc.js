@@ -17,7 +17,7 @@ const options = {
       }
     ]
   },
-  apis: []
+  apis: ['./models/user.js', './routes/twitter.js']
 };
 
 module.exports = options;
