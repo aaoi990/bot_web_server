@@ -4,17 +4,16 @@ var Promise = require('promise');
 
 var client = require('../twitter/client');
 var dbpool = require('../db');
-var since_id;
+var since_id = getSince();
 
-getSince();
 
 /**
  * Get the since id
  */
 function getSince() {
   dbpool.query("SELECT since_id FROM since ORDER BY dtoi DESC LIMIT 1", function (err, result, fields) {
-    if (err) throw err;  
-    since_id = result[0].since_id;
+    if (err) throw err;      
+    return result[0].since_id;
   });  
 }
 
@@ -24,16 +23,36 @@ const parameters = {
 
 const stream = client.stream("statuses/filter", parameters)
   .on("start", response => console.log("Hello. DC BOT is now listening!"))
-  .on("data", tweet => console.log("data", tweet.entities.hashtags))
+  .on("data", tweet => parseUser(tweet))
   .on("ping", () => console.log("ping"))
-  .on("error", error => process.nextTick(() => stream.destroy()))
+  .on("error", error => { process.nextTick(() => stream.destroy()), console.log(error)} )
   .on("end", response => process.nextTick(() => stream.destroy())); 
 
+function parseUser(tweet) {
+  console.log('tweet!')
+  if(tweet.entities.user_mentions[0].screen_name != undefined) {
+    console.log('tuser present', tweet.entities.user_mentions)
 
+  }
+}
 async function getMentions(next) {
   let result = await client.get("statuses/mentions_timeline", {count: 10, since_id: since_id}).catch(next);
   return result;
 }
+
+
+function two() {
+  return new Promise(resolve => {
+    console.log("two");
+    resolve();
+  });
+}
+
+function three(){
+   console.log("three")
+}
+
+//getMentions((e) => { console.log(e)}).then(() => two()).then(() => three());
 
 /**
  * @swagger
